@@ -40,6 +40,7 @@ const userAdd = async (req, res) => {
     if (req.body.userType === "student") {
       let studentData = new Students({
         email: req.body.email,
+        name: req.body.name,
         _id: data._id,
       });
 

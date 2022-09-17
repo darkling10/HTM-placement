@@ -1,6 +1,8 @@
 const Students = require("../models/studentProfile");
 
-const updateEducation = async (decoded,req,res) => {
+const updateEducation = async (decoded, req, res) => {
+  let message = "ok";
+  let errorCode = 200;
   const findUser = await Students.findById(decoded.id);
 
   if (findUser.education[0] !== []) {
@@ -30,10 +32,11 @@ const updateEducation = async (decoded,req,res) => {
   return res.status(errorCode).json({ message: message });
 };
 
-
-const updateProject = async (decoded,req,res) => {
+const updateProject = async (decoded, req, res) => {
+  let message = "ok";
+  let errorCode = 200;
   const findUser = await Students.findById(decoded.id);
-  console.log(findUser)
+  console.log(findUser);
   if (findUser.project[0] !== []) {
     await Students.updateOne(
       { _id: decoded.id },
@@ -61,7 +64,9 @@ const updateProject = async (decoded,req,res) => {
   return res.status(errorCode).json({ message: message });
 };
 
-const updatePastExp = async (decoded,req,res) => {
+const updatePastExp = async (decoded, req, res) => {
+  let message = "ok";
+  let errorCode = 200;
   const findUser = await Students.findById(decoded.id);
 
   if (findUser.pastExperience[0] !== []) {
@@ -91,8 +96,7 @@ const updatePastExp = async (decoded,req,res) => {
   return res.status(errorCode).json({ message: message });
 };
 
-
-const updateCertification = async (decoded,req,res) => {
+const updateCertification = async (decoded, req, res) => {
   const findUser = await Students.findById(decoded.id);
 
   if (findUser.certification[0] !== []) {
@@ -122,11 +126,9 @@ const updateCertification = async (decoded,req,res) => {
   return res.status(errorCode).json({ message: message });
 };
 
-
-
 module.exports = {
   updateEducation,
   updateProject,
   updatePastExp,
-  updateCertification
-}
+  updateCertification,
+};
