@@ -3,6 +3,7 @@ const Users = require("../models/users");
 const Students = require("../models/studentProfile");
 var bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const Company = require("../models/companyProfile");
 
 //Showing the list of Users
 const userList = async (req, res) => {
@@ -52,6 +53,24 @@ const userAdd = async (req, res) => {
 
       if (!studentCheck) {
         saveStudentres = await studentData.save();
+      }
+    }
+
+    if (req.body.userType === "company") {
+      let companyData = new Company({
+        adminEmail: req.body.email,
+        name: req.body.name,
+        _id: data._id,
+      });
+
+      const companyCheck = await Company.findOne(req.body.email).catch(
+        (err) => {
+          message = err;
+        }
+      );
+
+      if (!companyCheck) {
+        await companyData.save();
       }
     }
 

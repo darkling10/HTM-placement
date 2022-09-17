@@ -19,7 +19,7 @@ const companySchema = mongoose.Schema({
     },
     required: [true, "name required"],
   },
-
+  adminEmail:String,
   headquaters: {
     type: String,
   },

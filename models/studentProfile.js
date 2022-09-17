@@ -5,9 +5,7 @@ const pastSchema = require("../Schema/pastExperience");
 const certificateSchema = require("../Schema/certification");
 
 const studentSchema = mongoose.Schema({
-  name: {
-    type: String,
-  },
+  name: String,
   _id: String,
   email: {
     type: String,
