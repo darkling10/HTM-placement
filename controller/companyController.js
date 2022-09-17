@@ -46,7 +46,33 @@ const companyList = async (req, res) => {
 };
 
 const companyUpdate = async (req, res) => {
-  if (req.body.tags === "admin") {
+  try {
+    let message = "";
+    let code = 200;
+    let updated;
+    const authHeader = req.headers["x-access-token"];
+    const token = authHeader && authHeader.split(" ")[1];
+    const decoded = jwt.decode(token);
+
+    let companyData = await Company.findByIdAndUpdate(decoded.id, {
+      name: req.body.name,
+      headquaters: req.body.headquaters,
+      companySize: req.body.companySize,
+      logoURL: req.body.logoURL,
+      about: req.body.about,
+      specialities: req.body.specialities,
+      website: req.body.website,
+    })
+      .then((data) => {
+        (updated = true), (message = data);
+      })
+      .catch((err) => {
+        (updated = false), (message = err), (errorCode = 400);
+      });
+
+      return res.status(code).json({message:message,updated:updated})
+  } catch (err) {
+    res.status(400).json({ error: err });
   }
 };
 

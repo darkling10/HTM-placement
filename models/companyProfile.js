@@ -4,9 +4,12 @@ const companyAdminSchema = require("../Schema/companyAdmin");
 const companySchema = mongoose.Schema({
   name: {
     type: String,
+  },
+  adminEmail: {
+    type: String,
     validate: {
-      validator: async function (name) {
-        const user = await this.constructor.findOne({ name });
+      validator: async function (email) {
+        const user = await this.constructor.findOne({ email });
         if (user) {
           if (this.id === user.id) {
             return true;
@@ -15,11 +18,11 @@ const companySchema = mongoose.Schema({
         }
         return true;
       },
-      message: (props) => "The specified name is already in use.",
+      message: (props) => "The specified email address is already in use.",
     },
-    required: [true, "name required"],
+    required: [true, "User email required"],
   },
-  adminEmail:String,
+  adminName: String,
   headquaters: {
     type: String,
   },

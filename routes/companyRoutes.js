@@ -11,4 +11,6 @@ route.get("/profile", companyController.companyList);
 
 route.post("/profile", companyController.companyAdd);
 
+route.patch("/profile", authenticateToken,companyController.companyUpdate);
+
 module.exports = route;

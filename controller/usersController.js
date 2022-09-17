@@ -56,10 +56,10 @@ const userAdd = async (req, res) => {
       }
     }
 
-    if (req.body.userType === "company") {
+    if (req.body.userType === "companyAdmin") {
       let companyData = new Company({
         adminEmail: req.body.email,
-        name: req.body.name,
+        adminName: req.body.adminName,
         _id: data._id,
       });
 
@@ -111,10 +111,16 @@ const userLogin = async (req, res) => {
       .json({ message: "Error", message: "Please enter email/password" });
   }
 
-  user = await Users.findOne({ email: req.body.email });
   var responseType = {
     message: "Ok",
+    code:200
   };
+
+  user = await Users.findOne({ email: req.body.email }).catch(err=>{
+    
+    responseType.message = "User not found"
+  });
+  
 
   if (user) {
     var match = await bcrypt.compare(req.body.password, user.password);
@@ -128,10 +134,11 @@ const userLogin = async (req, res) => {
       responseType.error = true;
     }
   } else {
-    responseType.message = "Invalid Email ID";
+    responseType.message = "User not found";
+    responseType.code = 404
   }
 
-  res.status(200).json({ message: "ok", data: responseType });
+  res.status(responseType.code).json({ message: "ok", data: responseType });
 };
 
 const userLogout = (req, res) => {
