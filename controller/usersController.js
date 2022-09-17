@@ -108,7 +108,7 @@ const userLogin = async (req, res) => {
 
   if (!req.body.email || !req.body.password) {
     res
-      .status(301)
+      .status(400)
       .json({ message: "Error", message: "Please enter email/password" });
   }
 
