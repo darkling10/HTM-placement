@@ -105,6 +105,7 @@ const userAdd = async (req, res) => {
 
 const userLogin = async (req, res) => {
   //If request has empty fields pass error
+
   if (!req.body.email || !req.body.password) {
     res
       .status(301)
@@ -113,32 +114,36 @@ const userLogin = async (req, res) => {
 
   var responseType = {
     message: "Ok",
-    code:200
+    code: 200,
   };
 
-  user = await Users.findOne({ email: req.body.email }).catch(err=>{
-    
-    responseType.message = "User not found"
-  });
-  
+  try {
+    user = await Users.findOne({ email: req.body.email }).catch((err) => {
+      responseType.message = "User not found";
+    });
 
-  if (user) {
-    var match = await bcrypt.compare(req.body.password, user.password);
-    console.log(match);
-    if (match) {
-      let myToken = await user.getAuthToken();
-      responseType.message = "Login Successful";
-      responseType.token = myToken;
+    if (user) {
+      var match = await bcrypt.compare(req.body.password, user.password);
+      console.log(match);
+      if (match) {
+        let myToken = await user.getAuthToken();
+        responseType.message = "Login Successful";
+        responseType.token = myToken;
+      } else {
+        responseType.message = "Not";
+        responseType.error = true;
+      }
     } else {
-      responseType.message = "Not";
-      responseType.error = true;
+      responseType.message = "User not found";
+      responseType.code = 404;
     }
-  } else {
-    responseType.message = "User not found";
-    responseType.code = 404
-  }
 
-  res.status(responseType.code).json({ message: "ok", data: responseType });
+    return res
+      .status(responseType.code)
+      .json({ message: "ok", data: responseType });
+  } catch (error) {
+    return res.status(400).json({ error: error });
+  }
 };
 
 const userLogout = (req, res) => {
