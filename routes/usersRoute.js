@@ -6,7 +6,7 @@ const authenticateToken = require("../middlewares/userAuth")
 const cors = require("cors");
 
 // route.use(bodyParser.urlencoded({ extended: false }));
-route.options("*", cors());
+
 
 route.use(express.json());
 var jwt = require("jsonwebtoken");
