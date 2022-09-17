@@ -12,9 +12,9 @@ const studentProfileAdd = async (req, res) => {
   const authHeader = req.headers["x-access-token"];
   const token = authHeader && authHeader.split(" ")[1];
   const decoded = jwt.decode(token);
-
-  const student = await Students.findOne(decoded._id);
-  console.log(student);
+  console.log(decoded.id)
+  const student = await Students.findById(decoded.id);
+  // console.log(student);
 
   return res.status(200).json({ data: student });
 };
