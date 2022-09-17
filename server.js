@@ -20,9 +20,7 @@ app.use('/student',require('./routes/studentRoutes'))
 app.use('/company',require('./routes/companyRoutes'))
 
 app.use(bodyParser.json())
-app.use(cors({
-  origin: '*'
-}));
+app.use(cors());
 
 app.get("/",(req,res)=>{
   res.send("Hello")
