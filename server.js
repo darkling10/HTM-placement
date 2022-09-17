@@ -5,6 +5,7 @@ const path = require("path")
 let cors = require("cors");
 const bodyParser = require('body-parser')
 
+
 require("dotenv").config({
   path:path.join(__dirname,".env")
 })
@@ -18,6 +19,7 @@ require("./config/db")
 //Middlewares
 app.use("/users", require("./routes/usersRoute"));
 app.use('/student',require('./routes/studentRoutes'))
+app.use('/company',require('./routes/companyRoutes'))
 
 app.use(bodyParser.json())
 
