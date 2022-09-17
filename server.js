@@ -10,8 +10,6 @@ require("dotenv").config({
   path:path.join(__dirname,".env")
 })
 
-
-
 //Database Connection
 require("./config/db")
 
@@ -22,6 +20,9 @@ app.use('/student',require('./routes/studentRoutes'))
 app.use('/company',require('./routes/companyRoutes'))
 
 app.use(bodyParser.json())
+app.use(cors({
+  origin: '*'
+}));
 
 app.get("/",(req,res)=>{
   res.send("Hello")
