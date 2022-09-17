@@ -13,7 +13,7 @@ const studentProfileAdd = async (req, res) => {
   const token = authHeader && authHeader.split(" ")[1];
   const decoded = jwt.decode(token);
   console.log(decoded.id)
-  const student = await Students.findById(decoded.id);
+  const student = await Students.find({_id:decoded.id});
   // console.log(student);
 
   return res.status(200).json({ data: student });
