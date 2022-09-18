@@ -74,15 +74,6 @@ const userAdd = async (req, res) => {
       }
     }
 
-    const userCheck = await Users.findOne({email:req.body.email}).catch((err) => {
-      message: err;
-    });
-
-    if (userCheck) {
-      return res
-        .status(400)
-        .json({ error: "Duplicate email found", user: userCheck });
-    }
     let response = await data.save();
     let myToken = await data.getAuthToken();
     res.status(200).json({
