@@ -179,7 +179,7 @@ async function updateAbout(decoded, req, res) {
     githubLink,
     portfolioLink,
     role,
-  } = req.body;
+  } = req.body.about;
 
   const userLinks = {
     twitterLink: twitterLink,
@@ -189,16 +189,27 @@ async function updateAbout(decoded, req, res) {
   };
 
   try {
-    const updateStudent = await Students.findByIdAndUpdate(decoded.id, {
-      name: name,
-      email: email,
-      dob: dob,
-      headline: headline,
-      location: location,
-      userLinks: userLinks,
-      role: role,
-    });
+    const updateStudent = await Students.updateOne(
+      { _id: decoded.id },
+      {
+        $set: {
+          headline: headline,
 
+          dob: dob,
+          headline: headline,
+          location: location,
+          userLinks: userLinks,
+          role: role,
+        },
+      }
+    )
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    console.log(updateStudent);
     return res.status(200).json({ message: "Update SuccessFul" });
   } catch (error) {
     return res.status(404).json({ message: "error occured" });
