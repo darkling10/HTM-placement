@@ -118,14 +118,13 @@ const userLogin = async (req, res) => {
   let { email, password, userType } = req.body;
   if (userType === "student") {
     return loginUser(email, password, res);
-  } else if (userType) {
+  } else if (userType === "company") {
     return loginUser(email, password, res);
   } else {
   }
 };
 
 const userLogout = (req, res) => {
- 
   console.log(user);
 };
 

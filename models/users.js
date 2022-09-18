@@ -7,7 +7,7 @@ var userSchema = new mongoose.Schema(
     name: String,
     userType: {
       type: String,
-      enum: ["student", "collegeAdmin", "companyAdmin"],
+      enum: ["student", "collegeAdmin", "company"],
       default: "user",
     },
     phone: String,
