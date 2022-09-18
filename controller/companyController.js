@@ -108,9 +108,9 @@ const changeJobStatus = async (req, res) => {
 
 async function getCompany(req, res) {
   const { id } = req.query;
-  console.log(id);
+  console.log(typeof id);
 
-  const companyData = await Company.findById(id);
+  const companyData = await Company.find({ _id: id });
 
   res.status(200).json({ data: companyData });
 }
