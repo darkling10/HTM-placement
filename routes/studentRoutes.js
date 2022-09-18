@@ -19,6 +19,6 @@ route.post("/applyjob", authenticateToken, studentController.applyJob);
 
 route.get("/getjob", authenticateToken, studentController.showJobs);
 
-route.get("/getjob/:id", authenticateToken, studentController.showIDJob);
+route.get("/getjobbyid/", authenticateToken, studentController.showIDJob);
 
 module.exports = route;

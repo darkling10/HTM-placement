@@ -8,7 +8,7 @@ const {
   updateCertification,
   updatePastExp,
   updateSkills,
-  updateAbout
+  updateAbout,
 } = require("../middlewares/updateStudent");
 
 const studentProfileAdd = async (req, res) => {
@@ -102,12 +102,26 @@ async function applyJob(req, res) {
 }
 
 async function showIDJob(req, res) {
-  const id = req.params.id;
-  console.log(id);
-  const showIDJob = await Job.findOne({ _id: id });
-  return res
-    .status(200)
-    .json({ message: "Succesfully fetched the job", data: showIDJob });
+  const { id } = req.query;
+  try {
+    const showIDJob = await Job.findOne({ _id: id });
+    if (showIDJob.length === 0) {
+      return res.status(404).json({ message: "Job not found" });
+    } else {
+      return res
+        .status(200)
+        .json({ message: "Successfully fetched the job", data: showIDJob });
+    }
+  } catch (error) {
+    return res.status(404).json({ message: "Error occured" });
+  }
+
+  // const id = req.query.id;
+  // console.log(id);
+  // const showIDJob = await Job.findOne({ _id: id });
+  // return res
+  //   .status(200)
+  //   .json({ message: "Succesfully fetched the job", data: showIDJob });
 }
 
 module.exports = {

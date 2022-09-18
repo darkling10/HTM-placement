@@ -70,9 +70,16 @@ async function getCompanyJob(req, res) {
 
 async function getCompanyByID(req, res) {
   const { id } = req.query;
-
-  const getJob = await Job.findOne({ _id: id });
-  res.status(200).json({ data: getJob });
+  try {
+    const getJob = await Job.find({ _id: id });
+    if (getJob.length === 0) {
+      return res.status(404).json({ message: "Job not found" });
+    } else {
+      return res.status(200).json({ data: getJob });
+    }
+  } catch (error) {
+    return res.status(404).json({ message: "Error occured" });
+  }
 }
 
 module.exports = {
