@@ -29,7 +29,7 @@ const userAdd = async (req, res) => {
   } else if (userType === "company") {
     return createCompany(name, email, password, userType);
   } else {
-    return res.json({ message: "Enter valid userType" });
+    
   }
 
   async function createStudent(name, email, password, userType) {
@@ -122,7 +122,7 @@ const userLogin = async (req, res) => {
   } else if (userType) {
     return loginUser(email, password);
   } else {
-    return res.json({ message: "Enter valid userType" });
+    
   }
 };
 
