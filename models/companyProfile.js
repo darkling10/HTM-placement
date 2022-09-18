@@ -38,7 +38,7 @@ const companySchema = mongoose.Schema({
     type: String,
   },
   companySize: {
-    type: Number,
+    type: String,
   },
   logoURL: {
     type: String,
@@ -51,7 +51,7 @@ const companySchema = mongoose.Schema({
     type: String,
   },
   roles:String,
-  dof:Date,
+  dof:String,
   location: String,
   workspace:String,
 });

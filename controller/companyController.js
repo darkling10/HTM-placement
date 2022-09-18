@@ -58,46 +58,54 @@ const companyList = async (req, res) => {
 };
 
 const companyUpdate = async (req, res) => {
-  try {
-    let message = "";
-    let code = 200;
-    let updated;
+  // try {
     const authHeader = req.headers["x-access-token"];
     const token = authHeader && authHeader.split(" ")[1];
     const decoded = jwt.decode(token);
-
-    const {
-      name,
-      headline,
-      dof,
-      email,
-      profileImage,
-      headquaters,
-      companySize,
-      coverImage,
-      industry,
-      about,
-      specialities,
-      website,
-      roles,
-      workspace,
-    } = req.body;
-
+    
     if (req.body.tag === "profile") {
+      const {
+        name,
+        headline,
+        dof,
+        email,
+        profileImage,
+        location,
+        companySize,
+        coverImage,
+
+        roles,
+      } = req.body.profile;
+      console.log(decoded.email);
       let companyData = await Company.findByIdAndUpdate(decoded.id, {
-        name: name,
-        roles: roles,
-        location: location,
-        dof: dof,
-        email: email,
-        headline: headline,
-        companySize: companySize,
-        coverPic: coverImage,
-        profileURL: profileImage,
+        $set: {
+          name: name,
+          roles: roles,
+          location: location,
+          dof: dof,
+          email: email,
+          headline: headline,
+          companySize: companySize,
+          coverPic: coverImage,
+          profileURL: profileImage,
+        },
+      }).catch(err=>{
+          console.log(err)
       });
 
       return res.status(200).json({ message: "Updated Successfully" });
     } else if (req.body.tag === "about") {
+      const {
+        headquaters,
+        companySize,
+
+        industry,
+        about,
+        specialities,
+        website,
+
+        workspace,
+      } = req.body.about;
       let companyData = await Company.findByIdAndUpdate(decoded.id, {
         headquaters: headquaters,
         about: about,
@@ -110,9 +118,9 @@ const companyUpdate = async (req, res) => {
 
       return res.status(200).json({ message: "Updated Successfully" });
     }
-  } catch (err) {
-    res.status(400).json({ error: "Error" });
-  }
+  // } catch (err) {
+  //   res.status(400).json({ error: "Error" });
+  // }
 };
 
 const changeJobStatus = async (req, res) => {
