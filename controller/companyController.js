@@ -64,9 +64,11 @@ const companyUpdate = async (req, res) => {
 
     let companyData = await Company.findByIdAndUpdate(decoded.id, {
       name: req.body.name,
+      headline: req.body.headline,
       headquaters: req.body.headquaters,
       companySize: req.body.companySize,
-      logoURL: req.body.logoURL,
+      coverPic: req.body.coverPic,
+      companyLogo: req.body.companyLogo,
       about: req.body.about,
       specialities: req.body.specialities,
       website: req.body.website,

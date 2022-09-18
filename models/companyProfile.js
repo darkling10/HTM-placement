@@ -5,6 +5,7 @@ const companySchema = mongoose.Schema({
   name: {
     type: String,
   },
+  headline:String,
   coverPic: {
     type: String,
     default:

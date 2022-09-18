@@ -191,7 +191,8 @@ async function updateAbout(decoded, req, res) {
   try {
     const updateStudent = await Students.findByIdAndUpdate(decoded.id, {
       $set: {
-        name: name ? email : email,
+        name: name,
+        email: email,
         dob: dob,
         headline: headline,
         location: location,
