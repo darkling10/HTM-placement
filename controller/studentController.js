@@ -64,17 +64,22 @@ async function applyJob(req, res) {
   const decoded = jwt.decode(token);
 
   if (decoded.userType === "student") {
-    const { question1, question2 } = req.body;
-    const id = decoded.id;
+    const { id, question1, question2 } = req.body;
+    const tokenid = decoded.id;
 
     const submitResponse = {
-      id: id,
+      studID: tokenid,
       question1: question1,
       question2: question2,
     };
 
-    const submitJob = await Job.findOne({});
-    return res.status(200).json({ message: "Well done" });
+    const submitJob = await Job.findByIdAndUpdate(id, {
+      $push: {
+        responseReceived: submitResponse,
+      },
+    });
+
+    return res.status(200).json({ message: "Well done", data: submitJob });
   } else {
     return res
       .status(403)
@@ -83,8 +88,8 @@ async function applyJob(req, res) {
 }
 
 async function showIDJob(req, res) {
-  const id = req.params["id"];
-
+  const id = req.params.id;
+  console.log(id);
   const showIDJob = await Job.findOne({ _id: id });
   return res
     .status(200)
