@@ -5,7 +5,7 @@ const companySchema = mongoose.Schema({
   name: {
     type: String,
   },
-  adminEmail: {
+  email: {
     type: String,
     validate: {
       validator: async function (email) {

@@ -60,7 +60,7 @@ const userAdd = async (req, res) => {
     const user = await Users.findOne({ email: email });
     const userCompany = await Company.findOne({ email: email });
     if (user || userCompany) {
-      return res.status(400).json({ error: "Email Already Registered" });
+      return res.status(200).json({ error: "Email Already Registered" });
     } else {
       const newUser = new Users({
         name: name,
