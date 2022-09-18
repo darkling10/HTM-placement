@@ -108,11 +108,16 @@ const changeJobStatus = async (req, res) => {
 
 async function getCompany(req, res) {
   const { id } = req.query;
-  console.log(typeof id);
-
-  const companyData = await Company.find({ _id: id });
-
-  res.status(200).json({ data: companyData });
+  try {
+    const companyData = await Company.find({ _id: id });
+    if (companyData) {
+      return res.status(200).json({ data: companyData });
+    } else {
+      return res.status(404).json({ message: "User not found" });
+    }
+  } catch (error) {
+    return res.status(404).json({ message: "Error occured" });
+  }
 }
 
 module.exports = {
