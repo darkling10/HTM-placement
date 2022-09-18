@@ -25,14 +25,13 @@ const userList = async (req, res) => {
 const userAdd = async (req, res) => {
   let { email, name, password, userType } = req.body;
   if (userType === "student") {
-    return createStudent(name, email, password, userType);
+    return createStudent(name, email, password, userType, res);
   } else if (userType === "company") {
-    return createCompany(name, email, password, userType);
+    return createCompany(name, email, password, userType, res);
   } else {
-    
   }
 
-  async function createStudent(name, email, password, userType) {
+  async function createStudent(name, email, password, userType, res) {
     const user = await Users.findOne({ email: email });
     const userStudent = await Students.findOne({ email: email });
     if (user || userStudent) {
@@ -57,7 +56,7 @@ const userAdd = async (req, res) => {
     }
   }
 
-  async function createCompany(name, email, password, userType) {
+  async function createCompany(name, email, password, userType, res) {
     const user = await Users.findOne({ email: email });
     const userCompany = await Company.findOne({ email: email });
     if (user || userCompany) {
@@ -92,7 +91,7 @@ const userAdd = async (req, res) => {
  * userType:["student","collegeAdmin","companyAdmin"]
  */
 
-async function loginUser(email, password) {
+async function loginUser(email, password, res) {
   try {
     const user = await Users.findOne({ email: email });
     console.log(user);
@@ -118,11 +117,10 @@ const userLogin = async (req, res) => {
   //If request has empty fields pass erro
   let { email, password, userType } = req.body;
   if (userType === "student") {
-    return loginUser(email, password);
+    return loginUser(email, password, res);
   } else if (userType) {
-    return loginUser(email, password);
+    return loginUser(email, password, res);
   } else {
-    
   }
 };
 
