@@ -190,15 +190,13 @@ async function updateAbout(decoded, req, res) {
 
   try {
     const updateStudent = await Students.findByIdAndUpdate(decoded.id, {
-      $set: {
-        name: name,
-        email: email,
-        dob: dob,
-        headline: headline,
-        location: location,
-        userLinks: userLinks,
-        role: role,
-      },
+      name: name,
+      email: email,
+      dob: dob,
+      headline: headline,
+      location: location,
+      userLinks: userLinks,
+      role: role,
     });
 
     return res.status(200).json({ message: "Update SuccessFul" });
