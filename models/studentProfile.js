@@ -15,14 +15,18 @@ const studentSchema = mongoose.Schema({
   },
   Location: String,
   About: String,
-  userLinks:{
-    githubLink:{
-      type:String,
-      default:null,
+  userLinks: {
+    githubLink: {
+      type: String,
+      default: null,
     },
-    githubLink:{
-      type:String,
-      default:null,
+    instaLink: {
+      type: String,
+      default: null,
+    },
+    facebookLink: {
+      type: String,
+      default: null,
     },
   },
   education: {

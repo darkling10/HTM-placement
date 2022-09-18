@@ -68,7 +68,15 @@ async function getCompanyJob(req, res) {
   }
 }
 
+async function getCompanyByID(req, res) {
+  const { id } = req.query;
+
+  const getJob = await Job.findOne({ _id: id });
+  res.status(200).json({ data: getJob });
+}
+
 module.exports = {
   createJob,
   getCompanyJob,
+  getCompanyByID,
 };

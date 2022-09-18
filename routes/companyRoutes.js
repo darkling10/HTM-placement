@@ -22,4 +22,6 @@ route.get("/jobposted", authenticateToken,jobController.getCompanyJob);
 
 route.get("/getcompany",companyController.getCompany)
 
+route.get("/job",jobController.getCompanyByID)
+
 module.exports = route;
