@@ -166,10 +166,15 @@ const addSkills = async (req, res, message, errorCode, decoded) => {
     });
 };
 
+async function updateAbout(decoded,req,res){
+  
+}
+
 module.exports = {
   updateEducation,
   updateProject,
   updatePastExp,
   updateCertification,
   updateSkills,
+  updateAbout,
 };

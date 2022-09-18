@@ -8,6 +8,7 @@ const {
   updateCertification,
   updatePastExp,
   updateSkills,
+  updateAbout
 } = require("../middlewares/updateStudent");
 
 const studentProfileAdd = async (req, res) => {
@@ -39,6 +40,8 @@ const studentProfileUpdate = async (req, res) => {
     updateCertification(decoded, req, res);
   } else if (req.body.tag === "skills") {
     updateSkills(decoded, req, res);
+  } else if (req.body.tag === "about") {
+    updateAbout(decoded, req, res);
   } else {
     return res.json({ message: "Not a valid tag" });
   }

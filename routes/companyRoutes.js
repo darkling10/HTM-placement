@@ -20,6 +20,6 @@ route.post("/jobstatus", authenticateToken,companyController.changeJobStatus);
 
 route.get("/jobposted", authenticateToken,jobController.getCompanyJob);
 
-route.get("/:id",companyController.getCompany)
+route.get("/getcompany",companyController.getCompany)
 
 module.exports = route;
