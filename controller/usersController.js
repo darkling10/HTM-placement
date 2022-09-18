@@ -11,8 +11,6 @@ const userList = async (req, res) => {
   res.json(data);
 };
 
-var user;
-
 //Controller to add a user
 /**
  * USED in POST for /users/add
@@ -52,7 +50,7 @@ const userAdd = async (req, res) => {
       await newUser.save();
       await newStudent.save();
       let myToken = await newUser.getAuthToken();
-      return res.status(200).json({ msg: "succussfull!!!",token:myToken });
+      return res.status(200).json({ msg: "succussfull!!!", token: myToken });
     }
   }
 };
@@ -68,38 +66,24 @@ const userAdd = async (req, res) => {
 
 const userLogin = async (req, res) => {
   //If request has empty fields pass erro
-
-  var responseType = {
-    message: "Ok",
-    code: 200,
-  };
+  let { email, password, userType } = req.body;
 
   try {
-    user = await Users.findOne({ email: req.body.email }).catch((err) => {
-      responseType.message = "User not found";
-    });
-
+    const user = await Users.findOne({ email: email });
+    console.log(user);
     if (user) {
-      var match = await bcrypt.compare(req.body.password, user.password);
-      
-      if (match) {
+      const checkPassword = await bcrypt.compare(password, user.password);
+      if (checkPassword) {
         let myToken = await user.getAuthToken();
-        responseType.message = "Login Successful";
-        responseType.token = myToken;
-      } else {
-        responseType.message = "Not";
-        responseType.error = true;
+        return res
+          .status(200)
+          .json({ message: " Login Successfully", token: myToken });
       }
     } else {
-      responseType.message = "User not found";
-      responseType.code = 404;
+      return res.status(400).json({ message: "User not found" });
     }
-
-    return res
-      .status(responseType.code)
-      .json({ message: "ok", data: responseType });
   } catch (error) {
-    return res.status(400).json({ error: error });
+    return res.status(400).json({ error: "Some error occured" });
   }
 };
 
