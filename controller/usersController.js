@@ -51,7 +51,7 @@ const userAdd = async (req, res) => {
       });
       await newUser.save();
       await newStudent.save();
-      let myToken = await data.getAuthToken();
+      let myToken = await newUser.getAuthToken();
       return res.status(200).json({ msg: "succussfull!!!",token:myToken });
     }
   }
