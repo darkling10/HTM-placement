@@ -18,4 +18,6 @@ route.post("/createjob", authenticateToken,jobController.createJob);
 
 route.post("/jobstatus", authenticateToken,companyController.changeJobStatus);
 
+route.get("/jobposted", authenticateToken,jobController.getCompanyJob);
+
 module.exports = route;

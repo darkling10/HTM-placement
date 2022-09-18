@@ -1,5 +1,6 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
+const Company = require("../models/companyProfile");
 const Job = require("../models/job");
 
 async function createJob(req, res) {
@@ -50,6 +51,20 @@ async function createJob(req, res) {
   }
 }
 
+async function getCompanyJob(req, res) {
+  const authHeader = req.headers["x-access-token"];
+  const token = authHeader && authHeader.split(" ")[1];
+  const decoded = jwt.decode(token);
+
+  if (decoded.userType === "company") {
+    const getjob = await Job.find({ postedBy: decoded.id });
+    return res.status(200).json({ data: getjob });
+  } else {
+    return res.status(403).json({ message: "Forbidden" });
+  }
+}
+
 module.exports = {
   createJob,
+  getCompanyJob,
 };
