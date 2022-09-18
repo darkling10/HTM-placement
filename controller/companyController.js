@@ -4,7 +4,6 @@ const Company = require("../models/companyProfile");
 
 const companyAdd = async (req, res) => {
   try {
-    console.log("sdsdsdsd");
     let data = new Company({
       name: req.body.name,
 
