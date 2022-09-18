@@ -42,7 +42,16 @@ const companyAdd = async (req, res) => {
 };
 
 const companyList = async (req, res) => {
-  res.json("Hiiii");
+  const authHeader = req.headers["x-access-token"];
+  const token = authHeader && authHeader.split(" ")[1];
+  const decoded = jwt.decode(token);
+
+  const companyInfo = await Company.findOne({ email: decoded.email });
+  if (companyInfo) {
+    return res.status(200).json({ data: companyInfo });
+  } else {
+    return res.status(200).json({ message: "Not found" });
+  }
 };
 
 const companyUpdate = async (req, res) => {
@@ -70,7 +79,7 @@ const companyUpdate = async (req, res) => {
         (updated = false), (message = err), (errorCode = 400);
       });
 
-      return res.status(code).json({message:message,updated:updated})
+    return res.status(code).json({ message: message, updated: updated });
   } catch (err) {
     res.status(400).json({ error: err });
   }

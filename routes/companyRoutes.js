@@ -7,7 +7,7 @@ const authenticateToken = require("../middlewares/userAuth");
 route.use(express.json());
 route.use(cors());
 
-route.get("/profile", companyController.companyList);
+route.get("/profile", authenticateToken,companyController.companyList);
 
 route.post("/profile", companyController.companyAdd);
 
