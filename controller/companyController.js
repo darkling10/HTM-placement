@@ -13,6 +13,10 @@ const companyAdd = async (req, res) => {
       website: req.body.website,
       about: req.body.about,
       specialities: req.body.specialities,
+      location: req.body.location,
+      dof: req.body.dof,
+      workspace: req.body.workspace,
+      roles: req.body.roles,
     });
 
     const userCheck = await Company.findOne(req.body.name)
@@ -62,23 +66,49 @@ const companyUpdate = async (req, res) => {
     const token = authHeader && authHeader.split(" ")[1];
     const decoded = jwt.decode(token);
 
-    let companyData = await Company.findByIdAndUpdate(decoded.id, {
-      name: req.body.name,
-      headline: req.body.headline,
-      headquaters: req.body.headquaters,
-      companySize: req.body.companySize,
-      coverPic: req.body.coverPic,
-      companyLogo: req.body.companyLogo,
-      about: req.body.about,
-      specialities: req.body.specialities,
-      website: req.body.website,
-    })
-      .then((data) => {
-        (updated = true), (message = data);
-      })
-      .catch((err) => {
-        (updated = false), (message = err), (errorCode = 400);
+    const {
+      name,
+      headline,
+      dof,
+      profileURL: profileURL,
+      headquaters,
+      companySize,
+      coverPic,
+      companyLogo,
+      about,
+      specialities,
+      website,
+      roles,
+    } = req.body;
+
+    if (req.body.tag === "profile") {
+      let companyData = await Company.findByIdAndUpdate(decoded.id, {
+        name: name,
+        headline: headline,
+        location: location,
+        roles: roles,
+        dof: dof,
+        companySize: companySize,
+        coverPic: coverPic,
+        profileURL: profileURL,
       });
+    } else if (req.body.tag === "about") {
+      let companyData = await Company.findByIdAndUpdate(decoded.id, {
+        headquaters: headquaters,
+        about: about,
+        website: website,
+        industry: industry,
+        companySize: companySize,
+        workspace: workspace,
+        specialities: specialities,
+      })
+        .then((data) => {
+          (updated = true), (message = data);
+        })
+        .catch((err) => {
+          (updated = false), (message = err), (errorCode = 400);
+        });
+    }
 
     return res.status(code).json({ message: message, updated: updated });
   } catch (err) {

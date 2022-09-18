@@ -169,6 +169,7 @@ const addSkills = async (req, res, message, errorCode, decoded) => {
 
 async function updateAbout(decoded, req, res) {
   const {
+    name,
     email,
     dob,
     headline,
@@ -190,6 +191,7 @@ async function updateAbout(decoded, req, res) {
   try {
     const updateStudent = await Students.findByIdAndUpdate(decoded.id, {
       $set: {
+        name: name,
         email: email,
         dob: dob,
         headline: headline,

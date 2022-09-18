@@ -5,17 +5,17 @@ const companySchema = mongoose.Schema({
   name: {
     type: String,
   },
-  headline:String,
+  headline: String,
   coverPic: {
     type: String,
     default:
       "https://images.unsplash.com/photo-1520882089059-2d00b02047fc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
   },
-  companyLogo:{
-    type:String,
-    default:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/768px-Microsoft_logo.svg.png?20210729021049"
-  }
-  ,
+  companyLogo: {
+    type: String,
+    default:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/768px-Microsoft_logo.svg.png?20210729021049",
+  },
   email: {
     type: String,
     validate: {
@@ -50,6 +50,10 @@ const companySchema = mongoose.Schema({
   specialities: {
     type: String,
   },
+  roles:String,
+  dof:Date,
+  location: String,
+  workspace:String,
 });
 
 let Company = mongoose.model("company", companySchema);
