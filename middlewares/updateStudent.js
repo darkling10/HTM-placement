@@ -21,12 +21,12 @@ const updateEducation = async (decoded, req, res) => {
     }
   )
     .then((data) => {
-      message = data;
+      message = "Update succesfulll";
       errorCode = 200;
     })
     .catch((err) => {
-      message = err;
-      errorCode = 400;
+      message = "Error occured in updating";
+      errorCode = 200;
     });
 
   return res.status(errorCode).json({ message: message });
@@ -53,12 +53,12 @@ const updateProject = async (decoded, req, res) => {
     }
   )
     .then((data) => {
-      message = data;
+      message = "Update Successful";
       errorCode = 200;
     })
     .catch((err) => {
-      message = err;
-      errorCode = 400;
+      message = "Error occured in updating";
+      errorCode = 200;
     });
 
   return res.status(errorCode).json({ message: message });
@@ -85,18 +85,20 @@ const updatePastExp = async (decoded, req, res) => {
     }
   )
     .then((data) => {
-      message = data;
+      message = "Update Successfull";
       errorCode = 200;
     })
     .catch((err) => {
-      message = err;
-      errorCode = 400;
+      message = "Update unsuccessfull";
+      errorCode = 200;
     });
 
   return res.status(errorCode).json({ message: message });
 };
 
 const updateCertification = async (decoded, req, res) => {
+  let message = "";
+  let errorCode = 200;
   const findUser = await Students.findById(decoded.id);
 
   if (findUser.certification[0] !== []) {
@@ -115,12 +117,12 @@ const updateCertification = async (decoded, req, res) => {
     }
   )
     .then((data) => {
-      message = data;
+      message = "Update Successfull";
       errorCode = 200;
     })
     .catch((err) => {
-      message = err;
-      errorCode = 400;
+      message = "Error occured in updating";
+      errorCode = 200;
     });
 
   return res.status(errorCode).json({ message: message });
@@ -132,30 +134,26 @@ const updateSkills = async (decoded, req, res) => {
 
   try {
     const findUser = await Students.findById(decoded.id);
-    console.log(findUser.skills)
+    console.log(findUser.skills);
     if (findUser.skills.length === 0) {
-      updateSkills(req,message,errorCode)    
-      
-    }else{
-      console.log("Hiiii")
-      findUser.skills.forEach(element => {
-        if(element.name === req.body.skills.name){
-          errorCode = 400,
-          message = "Skill already registered"
-        }else{
-          
+      addSkills(req, message, errorCode);
+    } else {
+      console.log("Hiiii");
+      findUser.skills.forEach((element) => {
+        if (element.name === req.body.skills.name) {
+          (errorCode = 400), (message = "Skill already registered");
+        } else {
         }
       });
     }
 
     return res.status(errorCode).json({ message: message });
   } catch (error) {
-    return res.status(400).json({ message: "Error has occured", error: error });
+    return res.status(200).json({ message: "Error has occured", error: error });
   }
 };
 
-
-const addSkills = async(req,message,errorCode)=>{
+const addSkills = async (req, message, errorCode) => {
   const updateUser = await Students.updateOne(
     { _id: decoded.id },
     {
@@ -169,7 +167,7 @@ const addSkills = async(req,message,errorCode)=>{
       message = err;
       errorCode = 400;
     });
-}
+};
 
 module.exports = {
   updateEducation,

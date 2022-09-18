@@ -103,13 +103,13 @@ async function loginUser(email, password, res) {
           .status(200)
           .json({ message: " Login Successfully", token: myToken });
       } else {
-        return res.status(400).json({ message: "Wrong Password" });
+        return res.status(200).json({ message: "Wrong Password" });
       }
     } else {
-      return res.status(400).json({ message: "User not found" });
+      return res.status(200).json({ message: "User not found" });
     }
   } catch (error) {
-    return res.status(400).json({ error: "Some error occured" });
+    return res.status(200).json({ error: "Some error occured" });
   }
 }
 
