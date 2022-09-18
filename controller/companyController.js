@@ -1,4 +1,5 @@
 const express = require("express");
+const Students = require("../models/studentProfile");
 const jwt = require("jsonwebtoken");
 const Company = require("../models/companyProfile");
 
@@ -84,8 +85,31 @@ const companyUpdate = async (req, res) => {
   }
 };
 
+const changeJobStatus = async (req, res) => {
+  const authHeader = req.headers["x-access-token"];
+  const token = authHeader && authHeader.split(" ")[1];
+  const decoded = jwt.decode(token);
+  if (decoded.userType === "company") {
+    const { jobID, studID, status } = req.body;
+
+    const changeStud = await Students.updateOne(
+      { id: studID, "appliedJobs.jobID": jobID },
+      {
+        $set: {
+          "appliedJobs.$.status": status,
+        },
+      }
+    );
+
+    return res.json({ message: "Changed job status" });
+  } else {
+    return res.status(403).json({ message: "You need to be a student" });
+  }
+};
+
 module.exports = {
   companyAdd,
   companyList,
   companyUpdate,
+  changeJobStatus,
 };

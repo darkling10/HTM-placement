@@ -16,4 +16,6 @@ route.patch("/profile", authenticateToken,companyController.companyUpdate);
 
 route.post("/createjob", authenticateToken,jobController.createJob);
 
+route.post("/jobstatus", authenticateToken,companyController.changeJobStatus);
+
 module.exports = route;
