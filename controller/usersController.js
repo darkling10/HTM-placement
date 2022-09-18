@@ -27,9 +27,9 @@ var user;
 const userAdd = async (req, res) => {
   let { email, name, password, userType } = req.body;
   if (userType === "student") {
-    createStudent(name, email, password, userType);
+    return createStudent(name, email, password, userType);
   } else {
-    
+
   }
 
   async function createStudent(name, email, password, userType) {
@@ -44,7 +44,7 @@ const userAdd = async (req, res) => {
         userType: userType,
       });
       await newUser.save();
-      res.status(200).json({ msg: "succussfull!!!" });
+      return res.status(200).json({ msg: "succussfull!!!" });
     }
   }
 };
