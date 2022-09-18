@@ -70,28 +70,33 @@ const companyUpdate = async (req, res) => {
       name,
       headline,
       dof,
-      profileURL: profileURL,
+      email,
+      profileImage,
       headquaters,
       companySize,
-      coverPic,
-      companyLogo,
+      coverImage,
+      industry,
       about,
       specialities,
       website,
       roles,
+      workspace,
     } = req.body;
 
     if (req.body.tag === "profile") {
       let companyData = await Company.findByIdAndUpdate(decoded.id, {
         name: name,
-        headline: headline,
-        location: location,
         roles: roles,
+        location: location,
         dof: dof,
+        email: email,
+        headline: headline,
         companySize: companySize,
-        coverPic: coverPic,
-        profileURL: profileURL,
+        coverPic: coverImage,
+        profileURL: profileImage,
       });
+
+      return res.status(200).json({ message: "Updated Successfully" });
     } else if (req.body.tag === "about") {
       let companyData = await Company.findByIdAndUpdate(decoded.id, {
         headquaters: headquaters,
@@ -101,18 +106,12 @@ const companyUpdate = async (req, res) => {
         companySize: companySize,
         workspace: workspace,
         specialities: specialities,
-      })
-        .then((data) => {
-          (updated = true), (message = data);
-        })
-        .catch((err) => {
-          (updated = false), (message = err), (errorCode = 400);
-        });
-    }
+      });
 
-    return res.status(code).json({ message: message, updated: updated });
+      return res.status(200).json({ message: "Updated Successfully" });
+    }
   } catch (err) {
-    res.status(400).json({ error: err });
+    res.status(400).json({ error: "Error" });
   }
 };
 
