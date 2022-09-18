@@ -110,10 +110,10 @@ async function getCompany(req, res) {
   const { id } = req.query;
   try {
     const companyData = await Company.find({ _id: id });
-    if (companyData) {
-      return res.status(200).json({ data: companyData });
-    } else {
+    if (companyData.length === 0) {
       return res.status(404).json({ message: "User not found" });
+    } else {
+      return res.status(200).json({ data: companyData });
     }
   } catch (error) {
     return res.status(404).json({ message: "Error occured" });
