@@ -79,6 +79,17 @@ async function applyJob(req, res) {
       },
     });
 
+    const appliedJobs = {
+      jobID: id,
+      status: "under-review",
+    };
+
+    const studentAddJob = await Students.findByIdAndUpdate(tokenid, {
+      $push: {
+        appliedJobs: appliedJobs,
+      },
+    });
+
     return res.status(200).json({ message: "Well done", data: submitJob });
   } else {
     return res
