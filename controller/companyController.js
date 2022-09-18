@@ -7,7 +7,6 @@ const companyAdd = async (req, res) => {
   try {
     let data = new Company({
       name: req.body.name,
-
       headquaters: req.body.headquaters,
       companySize: req.body.companySize,
       logoURL: req.body.logoURL,
@@ -107,9 +106,18 @@ const changeJobStatus = async (req, res) => {
   }
 };
 
+async function getCompany(req, res) {
+  const { id } = req.params;
+
+  const companyData = await Company.findById(id);
+
+  res.status(200).json({ data: companyData });
+}
+
 module.exports = {
   companyAdd,
   companyList,
   companyUpdate,
   changeJobStatus,
+  getCompany,
 };
