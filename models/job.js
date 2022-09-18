@@ -2,18 +2,18 @@ const mongoose = require("mongoose");
 const responseSchema = require("../Schema/responseReceived");
 
 const jobSchema = mongoose.Schema({
-  role: String,
+  title: String,
   company: String,
-  duration: String,
-  experienceLevel: String,
+  employmentType: String,
+  experience: String,
   Salary: {
     minSalary: String,
     maxSalary: String,
   },
-  about: String,
+  description: String,
   skills: String,
-  worksWillInclude: String,
-  youShouldHave: String,
+  tasks: String,
+  requirements: String,
   perks: String,
   postedBy: String,
   responseReceived: {
