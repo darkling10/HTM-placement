@@ -125,7 +125,7 @@ const userLogin = async (req, res) => {
 };
 
 const userLogout = (req, res) => {
-  // user.tokens = user.tokens.filter()
+ 
   console.log(user);
 };
 

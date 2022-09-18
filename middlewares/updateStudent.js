@@ -134,26 +134,24 @@ const updateSkills = async (decoded, req, res) => {
 
   try {
     const findUser = await Students.findById(decoded.id);
-    console.log(findUser.skills);
+
     if (findUser.skills.length === 0) {
-      addSkills(req, message, errorCode);
+      return addSkills(req, res, message, errorCode, decoded);
     } else {
-      console.log("Hiiii");
       findUser.skills.forEach((element) => {
         if (element.name === req.body.skills.name) {
-          (errorCode = 400), (message = "Skill already registered");
+          return res.json({ message: "skill already registered" });
         } else {
+          return addSkills(req, res, message, errorCode, decoded);
         }
       });
     }
-
-    return res.status(errorCode).json({ message: message });
   } catch (error) {
     return res.status(200).json({ message: "Error has occured", error: error });
   }
 };
 
-const addSkills = async (req, message, errorCode) => {
+const addSkills = async (req, res, message, errorCode, decoded) => {
   const updateUser = await Students.updateOne(
     { _id: decoded.id },
     {
@@ -161,11 +159,10 @@ const addSkills = async (req, message, errorCode) => {
     }
   )
     .then((data) => {
-      message = data;
+      return res.status(200).json({ message: "Skill added successfully" });
     })
     .catch((err) => {
-      message = err;
-      errorCode = 400;
+      return res.status(200).json({ message: "Cannot add skillss" });
     });
 };
 
