@@ -179,6 +179,8 @@ async function updateAbout(decoded, req, res) {
     githubLink,
     portfolioLink,
     role,
+    coverIMG,
+    profileURL,
   } = req.body.about;
 
   const userLinks = {
@@ -194,7 +196,8 @@ async function updateAbout(decoded, req, res) {
       {
         $set: {
           headline: headline,
-
+          profileURL: profileURL,
+          coverIMG: coverIMG,
           dob: dob,
           headline: headline,
           location: location,
