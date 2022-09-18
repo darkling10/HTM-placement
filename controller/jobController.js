@@ -22,6 +22,11 @@ async function createJob(req, res) {
       perks,
     } = req.body;
 
+    const Salary = {
+      minSalary: minSalary,
+      maxSalary: maxSalary,
+    };
+
     const postedBy = decoded.id;
     try {
       const newJob = new Job({
@@ -29,8 +34,7 @@ async function createJob(req, res) {
         company: company,
         employmentType: employmentType,
         experience: experience,
-        minSalary: minSalary,
-        maxSalary: maxSalary,
+        Salary: Salary,
         description: description,
         skills: skills,
         tasks: tasks,

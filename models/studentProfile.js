@@ -15,6 +15,16 @@ const studentSchema = mongoose.Schema({
   },
   Location: String,
   About: String,
+  userLinks:{
+    githubLink:{
+      type:String,
+      default:null,
+    },
+    githubLink:{
+      type:String,
+      default:null,
+    },
+  },
   education: {
     type: [EducationSchema],
     default: null,
