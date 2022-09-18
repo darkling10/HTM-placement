@@ -67,13 +67,7 @@ const userAdd = async (req, res) => {
  */
 
 const userLogin = async (req, res) => {
-  //If request has empty fields pass error
-
-  if (!req.body.email || !req.body.password) {
-    res
-      .status(400)
-      .json({ message: "Error", message: "Please enter email/password" });
-  }
+  //If request has empty fields pass erro
 
   var responseType = {
     message: "Ok",
@@ -87,7 +81,7 @@ const userLogin = async (req, res) => {
 
     if (user) {
       var match = await bcrypt.compare(req.body.password, user.password);
-      console.log(match);
+      
       if (match) {
         let myToken = await user.getAuthToken();
         responseType.message = "Login Successful";
