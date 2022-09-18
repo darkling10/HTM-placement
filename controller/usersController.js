@@ -23,65 +23,29 @@ var user;
  * password:
  * userType:["student","collegeAdmin","companyAdmin"]
  */
+
 const userAdd = async (req, res) => {
-  let message = "ok";
-  console.log(req.body);
-  try {
-    let data = new Users({
-      name: req.body.name,
-      email: req.body.email,
-      phone: req.body.phone,
-      password: req.body.password,
-      userType: req.body.userType,
-    });
+  let { email, name, password, userType } = req.body;
+  if (userType === "student") {
+    createStudent(name, email, password, userType);
+  } else {
+    
+  }
 
-    console.log(data);
-    let saveStudentres;
-
-    if (req.body.userType === "student") {
-      let studentData = new Students({
-        email: req.body.email,
-        name: req.body.name,
-        _id: data._id,
+  async function createStudent(name, email, password, userType) {
+    const user = await Users.findOne({ email: email });
+    if (user) {
+      return res.status(400).json({ error: "Email Already Registered" });
+    } else {
+      const newUser = new Users({
+        name: name,
+        email: email,
+        password: password,
+        userType: userType,
       });
-
-      const studentCheck = await Students.findOne(req.body.email).catch(
-        (err) => {
-          message = err;
-        }
-      );
-
-      if (!studentCheck) {
-        saveStudentres = await studentData.save();
-      }
+      await newUser.save();
+      res.status(200).json({ msg: "succussfull!!!" });
     }
-
-    if (req.body.userType === "companyAdmin") {
-      let companyData = new Company({
-        adminEmail: req.body.email,
-        adminName: req.body.adminName,
-        _id: data._id,
-      });
-
-      const companyCheck = await Company.findOne(req.body.email).catch(
-        (err) => {
-          message = err;
-        }
-      );
-
-      if (!companyCheck) {
-        await companyData.save();
-      }
-    }
-
-    let response = await data.save();
-    let myToken = await data.getAuthToken();
-    res.status(200).json({
-      message: "ok",
-      token: myToken,
-    });
-  } catch (error) {
-    res.status(400).json({ status: "error", error: error, message: message });
   }
 };
 
