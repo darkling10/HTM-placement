@@ -26,7 +26,10 @@ const userAdd = async (req, res) => {
   let { email, name, password, userType } = req.body;
   if (userType === "student") {
     return createStudent(name, email, password, userType);
+  } else if (userType === "company") {
+    return createCompany(name, email, password, userType);
   } else {
+    return res.json({ message: "Enter valid userType" });
   }
 
   async function createStudent(name, email, password, userType) {
@@ -53,6 +56,31 @@ const userAdd = async (req, res) => {
       return res.status(200).json({ msg: "succussfull!!!", token: myToken });
     }
   }
+
+  async function createCompany(name, email, password, userType) {
+    const user = await Users.findOne({ email: email });
+    const userCompany = await Company.findOne({ email: email });
+    if (user || userCompany) {
+      return res.status(400).json({ error: "Email Already Registered" });
+    } else {
+      const newUser = new Users({
+        name: name,
+        email: email,
+        password: password,
+        userType: userType,
+      });
+
+      const newCompany = new Company({
+        name: name,
+        email: email,
+        _id: newUser._id,
+      });
+      await newUser.save();
+      await newCompany.save();
+      let myToken = await newUser.getAuthToken();
+      return res.status(200).json({ msg: "succussfull!!!", token: myToken });
+    }
+  }
 };
 
 //Controller to login a user
@@ -64,10 +92,7 @@ const userAdd = async (req, res) => {
  * userType:["student","collegeAdmin","companyAdmin"]
  */
 
-const userLogin = async (req, res) => {
-  //If request has empty fields pass erro
-  let { email, password, userType } = req.body;
-
+async function loginUser(email, password) {
   try {
     const user = await Users.findOne({ email: email });
     console.log(user);
@@ -78,12 +103,26 @@ const userLogin = async (req, res) => {
         return res
           .status(200)
           .json({ message: " Login Successfully", token: myToken });
+      } else {
+        return res.status(400).json({ message: "Wrong Password" });
       }
     } else {
       return res.status(400).json({ message: "User not found" });
     }
   } catch (error) {
     return res.status(400).json({ error: "Some error occured" });
+  }
+}
+
+const userLogin = async (req, res) => {
+  //If request has empty fields pass erro
+  let { email, password, userType } = req.body;
+  if (userType === "student") {
+    return loginUser(email, password);
+  } else if (userType) {
+    return loginUser(email, password);
+  } else {
+    return res.json({ message: "Enter valid userType" });
   }
 };
 
