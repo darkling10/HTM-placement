@@ -29,12 +29,12 @@ const userAdd = async (req, res) => {
   if (userType === "student") {
     return createStudent(name, email, password, userType);
   } else {
-
   }
 
   async function createStudent(name, email, password, userType) {
     const user = await Users.findOne({ email: email });
-    if (user) {
+    const userStudent = await Students.findOne({ email: email });
+    if (user || userStudent) {
       return res.status(400).json({ error: "Email Already Registered" });
     } else {
       const newUser = new Users({
@@ -43,8 +43,16 @@ const userAdd = async (req, res) => {
         password: password,
         userType: userType,
       });
+
+      const newStudent = new Students({
+        name: name,
+        email: email,
+        _id: newUser._id,
+      });
       await newUser.save();
-      return res.status(200).json({ msg: "succussfull!!!" });
+      await newStudent.save();
+      let myToken = await data.getAuthToken();
+      return res.status(200).json({ msg: "succussfull!!!",token:myToken });
     }
   }
 };
