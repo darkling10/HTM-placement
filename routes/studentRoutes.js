@@ -3,6 +3,11 @@ const cors = require("cors");
 const route = express.Router();
 const studentController = require("../controller/studentController");
 const authenticateToken = require("../middlewares/userAuth");
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('../swagger.json');
+
+route.use('/api-docs', swaggerUi.serve);
+route.get('/api-docs', swaggerUi.setup(swaggerDocument));
 
 route.use(express.json());
 route.use(cors());
