@@ -15,4 +15,10 @@ route.patch(
   studentController.studentProfileUpdate
 );
 
+route.post("/applyjob", authenticateToken, studentController.applyJob);
+
+route.get("/getjob", authenticateToken, studentController.showJobs);
+
+route.get("/onejob/:id",authenticateToken,studentController.showIDJob)
+
 module.exports = route;

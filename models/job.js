@@ -20,6 +20,8 @@ const jobSchema = mongoose.Schema({
     type: [responseSchema],
     default: null,
   },
+  question1: String,
+  question2: String,
 });
 
 const Job = new mongoose.model("job", jobSchema);

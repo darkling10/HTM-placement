@@ -1,4 +1,5 @@
 const express = require("express");
+const Job = require("../models/job");
 const Students = require("../models/studentProfile");
 const jwt = require("jsonwebtoken");
 const {
@@ -43,7 +44,57 @@ const studentProfileUpdate = async (req, res) => {
   }
 };
 
+async function showJobs(req, res) {
+  const authHeader = req.headers["x-access-token"];
+  const token = authHeader && authHeader.split(" ")[1];
+  const decoded = jwt.decode(token);
+
+  if (decoded.userType === "student") {
+    const allJobs = await Job.find({});
+
+    return res.status(200).json({ data: allJobs });
+  } else {
+    return res.status(403).json({ message: "You are not a student" });
+  }
+}
+
+async function applyJob(req, res) {
+  const authHeader = req.headers["x-access-token"];
+  const token = authHeader && authHeader.split(" ")[1];
+  const decoded = jwt.decode(token);
+
+  if (decoded.userType === "student") {
+    const { question1, question2 } = req.body;
+    const id = decoded.id;
+
+    const submitResponse = {
+      id: id,
+      question1: question1,
+      question2: question2,
+    };
+
+    const submitJob = await Job.findOne({});
+    return res.status(200).json({ message: "Well done" });
+  } else {
+    return res
+      .status(403)
+      .json({ message: "You need to be a student to access apply job" });
+  }
+}
+
+async function showIDJob(req, res) {
+  const id = req.params["id"];
+
+  const showIDJob = await Job.findOne({ _id: id });
+  return res
+    .status(200)
+    .json({ message: "Succesfully fetched the job", data: showIDJob });
+}
+
 module.exports = {
   studentProfileAdd,
   studentProfileUpdate,
+  applyJob,
+  showJobs,
+  showIDJob,
 };
