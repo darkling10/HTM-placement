@@ -1,3 +1,4 @@
+const { decode } = require("jsonwebtoken");
 const Students = require("../models/studentProfile");
 
 const updateEducation = async (decoded, req, res) => {
@@ -166,8 +167,43 @@ const addSkills = async (req, res, message, errorCode, decoded) => {
     });
 };
 
-async function updateAbout(decoded,req,res){
-  
+async function updateAbout(decoded, req, res) {
+  const {
+    name,
+    email,
+    dob,
+    headline,
+    location,
+    twitterLink,
+    instaLink,
+    githubLink,
+    portfolioLink,
+    role,
+  } = req.body;
+
+  const userLinks = {
+    twitterLink: twitterLink,
+    instaLink: instaLink,
+    githubLink: githubLink,
+    portfolioLink: portfolioLink,
+  };
+
+  try {
+    const updateStudent = await Students.findByIdAndUpdate(decoded.id, {
+      $set: {
+        name: name ? email : email,
+        dob: dob,
+        headline: headline,
+        location: location,
+        userLinks: userLinks,
+        role: role,
+      },
+    });
+
+    return res.status(200).json({ message: "Update SuccessFul" });
+  } catch (error) {
+    return res.status(404).json({ message: "error occured" });
+  }
 }
 
 module.exports = {

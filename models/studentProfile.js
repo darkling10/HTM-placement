@@ -13,8 +13,10 @@ const studentSchema = mongoose.Schema({
     type: String,
     unique: true,
   },
-  Location: String,
-  About: String,
+  dob: Date,
+  headline: String,
+  location: String,
+  about: String,
   userLinks: {
     githubLink: {
       type: String,
@@ -24,11 +26,16 @@ const studentSchema = mongoose.Schema({
       type: String,
       default: null,
     },
-    facebookLink: {
+    portfolioLink: {
+      type: String,
+      default: null,
+    },
+    twitterLink: {
       type: String,
       default: null,
     },
   },
+  role: String,
   education: {
     type: [EducationSchema],
     default: null,

@@ -20,6 +20,8 @@ async function createJob(req, res) {
       tasks,
       requirements,
       perks,
+      question1,
+      question2,
     } = req.body;
 
     const Salary = {
@@ -41,6 +43,8 @@ async function createJob(req, res) {
         requirements: requirements,
         perks: perks,
         postedBy: postedBy,
+        question1: question1,
+        question2: question2,
       });
 
       await newJob.save();
