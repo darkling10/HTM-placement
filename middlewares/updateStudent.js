@@ -126,9 +126,55 @@ const updateCertification = async (decoded, req, res) => {
   return res.status(errorCode).json({ message: message });
 };
 
+const updateSkills = async (decoded, req, res) => {
+  let message = "ok";
+  let errorCode = 200;
+
+  try {
+    const findUser = await Students.findById(decoded.id);
+    console.log(findUser.skills)
+    if (findUser.skills.length === 0) {
+      updateSkills(req,message,errorCode)    
+      
+    }else{
+      console.log("Hiiii")
+      findUser.skills.forEach(element => {
+        if(element.name === req.body.skills.name){
+          errorCode = 400,
+          message = "Skill already registered"
+        }else{
+          
+        }
+      });
+    }
+
+    return res.status(errorCode).json({ message: message });
+  } catch (error) {
+    return res.status(400).json({ message: "Error has occured", error: error });
+  }
+};
+
+
+const addSkills = async(req,message,errorCode)=>{
+  const updateUser = await Students.updateOne(
+    { _id: decoded.id },
+    {
+      $push: { skills: req.body.skills },
+    }
+  )
+    .then((data) => {
+      message = data;
+    })
+    .catch((err) => {
+      message = err;
+      errorCode = 400;
+    });
+}
+
 module.exports = {
   updateEducation,
   updateProject,
   updatePastExp,
   updateCertification,
+  updateSkills,
 };

@@ -3,6 +3,7 @@ const EducationSchema = require("../Schema/education");
 const projectSchema = require("../Schema/project");
 const pastSchema = require("../Schema/pastExperience");
 const certificateSchema = require("../Schema/certification");
+const skillsSchema = require("../Schema/skills");
 
 const studentSchema = mongoose.Schema({
   name: String,
@@ -29,6 +30,10 @@ const studentSchema = mongoose.Schema({
     type: [certificateSchema],
     default: null,
   },
+  skills:{
+    type:[skillsSchema],
+    default:null
+  }
 });
 
 let Students = mongoose.model("student", studentSchema);

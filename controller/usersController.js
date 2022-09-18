@@ -74,7 +74,7 @@ const userAdd = async (req, res) => {
       }
     }
 
-    const userCheck = await Users.findOne(req.body.email).catch((err) => {
+    const userCheck = await Users.findOne({email:req.body.email}).catch((err) => {
       message: err;
     });
 
